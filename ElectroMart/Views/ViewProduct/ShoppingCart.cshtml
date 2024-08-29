@@ -1,0 +1,128 @@
+﻿@model IEnumerable<ElectroMart.Models.ShoppingCartModel>
+
+@{
+    ViewBag.Title = "ShoppingCart";
+    double TotalAmount = 0.00;
+}
+
+
+<div class="container" style="margin-top:75px;">
+
+    <h4 class="display-4 text-center pt-3 pb-4 mb-4" style="color: darkred;font-weight:bold;">Shopping Cart List</h4>
+
+    <table class="table table-bordered table-striped">
+        <thead class="bg-success text-center">
+            <tr style="color:white;">
+                <th>Product Image</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cart in Model)
+            {
+                TotalAmount += cart.Total;
+                <tr>
+                    <td>
+                        <img src="@Url.Content(cart.ImagePath)" width="80" height="50" class="img-fluid" />
+                    </td>
+                    <td>
+                        @cart.ProductsName
+                    </td>
+                    <td>@cart.Quantity</td>
+                    <td>@cart.UnitPrice.ToString("#,##0.00")</td>
+                    <td>@cart.Total.ToString("#,##0.00")</td>
+                    <td class="d-flex justify-content-center">
+                        <a class="btn btn-danger btn-sm" href="@Url.Action("RemoveFromCart", "ViewProduct", new { id = cart.Id })">Remove</a>
+                    </td>
+
+                </tr>
+            }
+
+            <tr style="border-top: 2px solid #b62626">
+                <td colspan="4" style="text-align: right;" class="text-primary">
+                    <h5>Total Amount</h5>
+                </td>
+                <td class="text-center">
+                    <h5>@TotalAmount.ToString("#,##0.00")</h5>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+    @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "msg", OnComplete = "orderAll" }))
+    {
+        <table class="table table-light">
+        </table>
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success  m-1">Order Now</button>
+            <a href="@Url.Action("Index","ViewProduct")" class="btn btn-primary m-1 ">Back to Add Cart</a>
+            <a href="@Url.Action("OrderDetails", "Products")" class="btn btn-warning m-1 ">Order Details</a>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-10 offset-2" id="msg">
+
+            </div>
+        </div>
+    }
+
+    @*@using (Ajax.BeginForm(new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "msg",
+            OnSuccess = "orderSuccess",
+            OnFailure = "orderFailure"
+        }))
+        {*@
+    @*<table class="table table-light">*@
+    <!-- Add your table content here -->
+    <!--</table>
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-success btn-sm m-1">Order Now</button>
+        <a href="@Url.Action("Index", "ViewProduct")" class="btn btn-link"><i class="fa fa-arrow-circle-left"></i> Back to Add Cart</a>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-10 offset-2" id="msg">-->
+    <!-- Message will be displayed here -->
+    <!--</div>
+        </div>
+    }-->
+
+</div>
+@section scripts{
+
+    <script src="~/Scripts/jquery-3.7.0.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script>
+        function orderAll() {
+            $("#form0").trigger("reset");
+        }
+    </script>
+    <script type="text/javascript">
+        function orderSuccess(response) {
+            // Assuming response contains a message property with the success message
+            var msgDiv = document.getElementById("msg");
+            msgDiv.innerHTML = '<div class="alert alert-success" role="alert">' + response.message + '</div>';
+        }
+
+        function orderFailure(response) {
+            // Assuming response contains a message property with the error message
+            var msgDiv = document.getElementById("msg");
+            msgDiv.innerHTML = '<div class="alert alert-danger" role="alert">' + response.responseText + '</div>';
+        }
+    </script>
+
+
+}

@@ -1,0 +1,131 @@
+﻿
+@model ElectroMart.Models.InputModel.Brand
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<style>
+    .form-container {
+        max-width: 800px;
+        margin: auto;
+        border: 2px solid #ddd;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        background-color: #f9f9f9;
+        margin-top: 75px;
+    }
+
+    .form-title {
+        text-align: center;
+        font-weight: bold;
+        color: darkred;
+        margin-bottom: 35px;
+        margin-top: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn {
+        margin-top: 1rem;
+    }
+
+    .back-to-list {
+        margin-top: 1rem;
+    }
+</style>
+
+<div class="form-container">
+    <h2 class="display-3 form-title">Edit Brand</h2>
+
+
+    @using (Ajax.BeginForm(new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "msg",
+        OnSuccess = "handleEditSuccess",
+        OnComplete = "clearAll"
+    }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.Id)
+
+        <div class="form-group row">
+            @Html.LabelFor(x => x.CategoryId, "Category", htmlAttributes: new { @class = "control-label col-md-3 text-right" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(x => x.CategoryId, new SelectList(ViewBag.categoryList, "Id", "CategoryName"), "--------Select Category-------", new { @class = "form-select" })
+                @Html.ValidationMessageFor(x => x.CategoryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(x => x.SubCategoryId, "Sub Category", htmlAttributes: new { @class = "control-label col-md-3 text-right" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(x => x.SubCategoryId, new SelectList(ViewBag.subCategoryList, "Id", "SubCategoryName"), "--------Select Sub-Category-------", new { @class = "form-select" })
+                @Html.ValidationMessageFor(x => x.SubCategoryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(x => x.BrandName, "Brand Name", htmlAttributes: new { @class = "control-label col-md-3 text-right" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(x => x.BrandName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.BrandName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-9 offset-3" id="UpdateMessage">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-9 offset-3" id="UpdateErrorMessage">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-9 offset-md-3 text-right">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Update</button>
+                <a href="@Url.Action("Index","Brand")" class="btn btn-warning">Cancel</a>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-start back-to-list">
+            <a href="@Url.Action("Index", "Brand")" class="btn btn-link"><i class="fa fa-arrow-circle-left"></i> Back to list</a>
+        </div>
+    }
+</div>
+
+
+@section scripts {
+    <script src="~/Scripts/jquery-3.7.0.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script>
+        function clearAll() {
+            $("#form0").trigger("reset");
+        }
+
+        function handleEditSuccess(response) {
+            if (response.success) {
+                $('#UpdateMessage').html(response.message);
+                setTimeout(function() {
+                    window.location.href = '@Url.Action("Index", "Brand")';
+                }, 2000);
+            } else {
+                $('#UpdateErrorMessage').html(response);
+            }
+        }
+    </script>
+
+    <script>
+        $("#form0").attr("enctype", "multipart/form-data");
+    </script>
+}
+}

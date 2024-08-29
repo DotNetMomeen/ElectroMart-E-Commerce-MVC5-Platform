@@ -1,0 +1,166 @@
+﻿@model OnlineStore.Models.ViewModel.ProductViewModel
+@{
+    ViewBag.Title = "Edit";
+}
+<div class="container" style="margin-top:75px;">
+    <div class="row">
+
+        <div class="col-md-12 mb-3">
+            <h3 class="text-capitalize offset-4">Edit Product</h3>
+        </div>
+
+        <div class="col-md-12">
+            @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "msg", OnComplete = "clearAll" }))
+            {
+                @Html.HiddenFor(x => x.ProductId)
+
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.ProductName, new { @class = "col-form-label col-md-2 r" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(x => x.ProductName, new { @class = "form-control r" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.ValidationMessageFor(x => x.ProductName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.CategoryId, new { @class = "col-form-label col-md-2 r" })
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(x => x.CategoryId, new SelectList(ViewBag.categoryList, "Id", "CategoryName"), "----Select One---", new { @class = "form-control form-select r" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.ValidationMessageFor(x => x.CategoryId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.SubCategoryId, new { @class = "col-form-label col-md-2 r" })
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(x => x.SubCategoryId, new SelectList(ViewBag.subCategoryList, "Id", "SubCategoryName"), "----Select One---", new { @class = "form-control form-select r" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.ValidationMessageFor(x => x.SubCategoryId, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.BrandId, new { @class = "col-form-label col-md-2 r" })
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(x => x.BrandId, new SelectList(ViewBag.brandList, "Id", "BrandName"), "----Select One---", new { @class = "form-control form-select r" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.ValidationMessageFor(x => x.BrandId, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.QuantityPerUnit, new { @class = "col-form-label col-md-2 r" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(x => x.QuantityPerUnit, new { @class = "form-control r" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.ValidationMessageFor(x => x.QuantityPerUnit, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.UnitPrice, new { @class = "col-form-label col-md-2 r" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(x => x.UnitPrice, new { @class = "form-control r" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.ValidationMessageFor(x => x.UnitPrice, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.Quantity, new { @class = "col-form-label col-md-2 r", type = "number" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control r" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.ValidationMessageFor(x => x.Quantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    @Html.LabelFor(x => x.StockInStatus, new { @class = "col-form-label col-md-2 r" })
+                    <div class="col-md-6" style="margin-left:3px;">
+                        @Html.CheckBox("StockInStatus")
+                    </div>
+
+                </div>
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.Description, new { @class = "col-form-label col-md-2 r" })
+                    <div class="col-md-6">
+                        @Html.TextAreaFor(x => x.Description, new { @class = "form-control r" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.StoreDate, new { @class = "col-form-label col-md-2 r" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(x => x.StoreDate, new { htmlAttribute = new { @class = "form-control", Type = "date", Placeholder = "Adding date" } })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.ValidationMessageFor(x => x.StoreDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.Picture, new { @class = "col-form-label col-md-2 r" })
+                    <div class="col-md-10">
+                        <img src="@Url.Content(Model.Images)" width="250" height="200" style="margin-bottom:10px;" id="uploadImg" />
+                    </div>
+                    <div class="offset-2 col-md-4">
+                        @Html.TextBoxFor(x => x.Images, new { @class = "form-control r" })
+                        <input type="file" class="form-control" name="Picture" title="Upload Image" onchange="displayImage(this)" />
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-10 offset-2" id="msg">
+
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-10 offset-2">
+                        <button type="submit" class="btn btn-info">Update</button>
+                        <a href="@Url.Action("Index","Products")" class="btn btn-warning">Cancel</a>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<script>
+    $(document).ready(function () {
+
+    });
+    function displayImage(result) {
+        if (result.files && result.files[0]) {
+            var fileReader = new FileReader();
+            fileReader.onload = function (e) {
+                $("#uploadImg").attr('src', e.target.result);
+            }
+            fileReader.readAsDataURL(result.files[0]);
+        }
+    }
+</script>
+@section scripts{
+
+    <script src="~/Scripts/jquery-3.6.0.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $("#form0").attr("enctype", "multipart/form-data")
+        function clearAll() {
+            $("#form0").trigger("reset");
+        }
+    </script>
+
+}
+

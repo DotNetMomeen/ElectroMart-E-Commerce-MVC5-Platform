@@ -1,0 +1,95 @@
+﻿@model ElectroMart.Models.InputModel.SubCategory
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<style>
+    .form-container {
+        max-width: 800px;
+        margin: auto;
+        border: 2px solid #ddd;
+        padding: 35px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        background-color: #f9f9f9;
+        margin-top: 60px;
+    }
+
+    .form-title {
+        text-align: center;
+        font-weight: bold;
+        color: darkred;
+        margin-bottom: 35px;
+        margin-top: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .btn {
+        margin-top: 1.5rem;
+    }
+
+    .back-to-list {
+        margin-top: 1rem;
+    }
+</style>
+
+<div class="form-container">
+    <h2 class="display-3 form-title">Edit SubCategory</h2>
+
+    @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "msg", OnComplete = "clearAll" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group row">
+            @Html.LabelFor(x => x.CategoryId, "Category", htmlAttributes: new { @class = "control-label col-md-3 text-right" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(x => x.CategoryId, new SelectList(ViewBag.categoryList, "Id", "CategoryName"), "----Select One---", new { @class = "form-select" })
+                @Html.ValidationMessageFor(x => x.CategoryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(x => x.SubCategoryName, htmlAttributes: new { @class = "control-label col-md-3 text-right" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(x => x.SubCategoryName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.SubCategoryName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-9 offset-3" id="msg">
+                <!-- Message container -->
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-9 offset-md-3 text-right">
+                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Update</button>
+                <a href="@Url.Action("Index","SubCategory")" class="btn btn-warning">Cancel</a>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-start back-to-list">
+            <a href="@Url.Action("Index", "SubCategory")" class="btn btn-link"><i class="fa fa-arrow-circle-left"></i> Back to list</a>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script src="~/Scripts/jquery-3.7.0.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $("#form0").attr("enctype", "multipart/form-data")
+        function clearAll() {
+            $("#form0").trigger("reset");
+        }
+    </script>
+}

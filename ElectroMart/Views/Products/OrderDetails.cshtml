@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ElectroMart.Models.OrderViewModels>
+@{
+    ViewBag.Title = "OrderDetails";
+}
+
+<div style="margin-top:80px;" class="container">
+
+    <div class="row">
+
+        <h4 class="display-4 text-center pt-3 pb-4" style="color: darkred;font-weight:bold;">Order Information</h4>
+
+
+        <div class="col">
+            <table class="table table-bordered table-striped">
+                <thead class=" bg-success text-center" style="color:white;">
+                    <tr>
+                        <th>Order Id</th>
+                        <th>Order Number</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var od in Model)
+                    {
+                        <tr>
+                            <td>@od.OrderId</td>
+                            <td>@od.OrderNumber</td>
+                            <td>@od.Quantity</td>
+                            <td>@od.UnitPrice</td>
+                            <td>@od.Total</td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+            <div>
+                <a href="@Url.Action("Index","Products")" class="btn btn-info">Back to Product</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+

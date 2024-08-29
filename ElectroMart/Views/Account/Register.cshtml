@@ -1,0 +1,111 @@
+﻿@*@model ElectroMart.Models.RegisterViewModel
+    @{
+        ViewBag.Title = "Register";
+    }
+
+    <main aria-labelledby="title">
+        <h2 id="title">@ViewBag.Title.</h2>
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h4>Create a new account.</h4>
+            <hr />
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="row">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-md-2 col-md-10">
+                    <input type="submit" value="Register" class="btn btn-outline-dark" />
+                </div>
+            </div>
+        }
+    </main>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@
+
+
+@model ElectroMart.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<style>
+    .centered-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .border-container {
+        height: auto;
+        width: auto;
+        border: 2px solid #ccc;
+        padding: 35px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+</style>
+
+<main aria-labelledby="title" class="centered-container">
+    <div class="border-container">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <h4 class="display-6 mb-2" style="text-align:center">Register Here</h4>
+
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+            <div class="row mb-2">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-5 col-form-label" })
+                <div class="col-md-7">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-5 col-form-label" })
+                <div class="col-md-7">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-5 col-form-label" })
+                <div class="col-md-7">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="offset-md-5 col-md-7">
+                    <input type="submit" value="Register" class="btn btn-outline-dark mt-2" />
+                </div>
+            </div>
+        }
+    </div>
+</main>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

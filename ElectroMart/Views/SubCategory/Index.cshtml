@@ -1,0 +1,120 @@
+﻿@model PagedList.IPagedList<ElectroMart.Models.InputModel.SubCategory>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div style="height: 50px;"></div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-top: 17px !important;">
+    <div class="container">
+        <a href="@Url.Action("Index", "Home")" class="nav-link">
+            <img src="~/Images/Logo.jpg" width="40" height="40" class="navbar-brand" />
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menubar" aria-controls="menubar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse mt-2" id="menubar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    @Html.ActionLink("Products", "Index", "Products", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Categories", "Index", "Category", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Sub Category", "Index", "SubCategory", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Brand", "Index", "Brand", new { area = "" }, new { @class = "nav-link" })
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control mr-sm-2", placeholder = "Search Sub Category" })
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4 d-flex justify-content-end">
+    <a href="@Url.Action("Create", "SubCategory")" class="btn btn btn-primary btn-success mt-3 mb-3 pt-2 pb-2" style="font-size:15px;font-weight:bold;">
+        <i class="fa fa-plus-circle"></i> Add New Sub-Category
+    </a>
+</div>
+
+<div class="container">
+    @*<h2 class="display-3 mt-5 mb-5 text-center" style="font-weight:bold; color:darkred;">SubCategory List</h2>*@
+
+    <div class="card">
+        <div class="card-header alert-success">
+            <h1 class="card-title text-center display-4 mt-2">Sub-Category List</h1>
+        </div>
+        <div class="card-body">
+
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead class="alert-info">
+                        <tr>
+
+                            <th class="text-center" style="background-color:darkgreen; color:white;">
+                                Sub Category
+                            </th>
+                            <th class="text-center" style="background-color:darkgreen; color:white;">
+                                Category
+                            </th>
+                            <th class="text-center" style="background-color: darkgreen; color: white;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sub in Model)
+                        {
+                            <tr>
+                                <td class="text-center">@Html.DisplayFor(x => sub.SubCategoryName)</td>
+                                <td class="text-center">@Html.DisplayFor(x => sub.Category.CategoryName)</td>
+                                <td class="text-center">
+                                    <a href="@Url.Action("Edit", "SubCategory", new { id = sub.Id })" class="btn btn-outline-success btn-sm me-md-2">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </a>
+                                    <a href="@Url.Action("Delete", "SubCategory", new { id = sub.Id })" class="btn btn-outline-danger btn-sm">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+                <div>
+                    <h6 @*class="text-center" style="background-color:darkgreen; color:white;"*@>
+                        Sorting By : @Html.ActionLink("Sub Category", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </h6>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer alert-success" style="padding:5px">
+            <div class="d-flex justify-content-between container">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, searchStr = ViewBag.CategoryFilter }))
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/jquery-3.7.0.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $("#form0").attr("enctype", "multipart/form-data")
+        function clearAll() {
+            $("#form0").trigger("reset");
+        }
+    </script>
+
+}
